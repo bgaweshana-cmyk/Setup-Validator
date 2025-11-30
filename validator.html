@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Validator — G's Setup Validator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body.theme-dark {
+      background: #1f1f2e;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    main.page.validator {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .validator-left {
+      flex: 2 1 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card.glass.section {
+      background: rgba(40, 40, 60, 0.9);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+
+    .card.glass.section:hover {
+      transform: translateY(-3px);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .section-score {
+      font-weight: bold;
+      padding: 5px 12px;
+      border-radius: 8px;
+      min-width: 50px;
+      text-align: center;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    .items .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      padding: 8px 10px;
+      background: rgba(30,30,50,0.6);
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .items .item:hover {
+      background: rgba(50,50,90,0.8);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #888;
+      transition: 0.4s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4ef07c;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .overall-panel {
+      background: rgba(40,40,60,0.9);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #overallBox {
+      font-size: 2rem;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 15px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .overall-label {
+      display:block;
+      font-size: 1rem;
+      margin-top:5px;
+      color:#ccc;
+    }
+
+    footer.site-footer {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+      background: rgba(40,40,60,0.9);
+      margin-top: 30px;
+    }
+
+    @media(max-width:768px){
+      main.page.validator {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .pulse {
+      animation: pulseAnim 0.25s ease;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .validator-right {
+     flex: 1 1 300px;
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+     position: sticky;
+     margin-top: 100px; /* space below header */
+     
+    }
+
+  </style>
+</head>
+<body class="theme-dark">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">G's Setup Validator</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="validator.html" class="nav-link active">Validator</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="rules.html" class="nav-link">Rules</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page validator">
+    <section class="validator-left">
+      <h2 class="section-heading">Setup Validator</h2>
+      <p class="muted">Toggle the confluences you have. Percentages on the right show each confluence weight (section-max ÷ items). Section score is scaled to section max.</p>
+
+      <!-- Weekly Section -->
+      <div class="card glass section" data-section="weekly" data-max="60">
+        <div class="section-header">
+          <h3>WEEKLY <span class="section-max">(Max 60%)</span></h3>
+          <div class="section-meta"><span id="weekly-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Trend</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Touching SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Crossing SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Round Psychological Level</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Rejection from HTF Levels</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c weekly" type="checkbox"><span class="slider"></span></div><span class="item-title">Break & Retest</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+      <!-- Daily Section -->
+      <div class="card glass section" data-section="daily" data-max="60">
+        <div class="section-header">
+          <h3>DAILY <span class="section-max">(Max 60%)</span></h3>
+          <div class="section-meta"><span id="daily-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Trend</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Bias</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Touching SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Crossing SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Round Psychological Level</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Rejection from HTF Levels</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c daily" type="checkbox"><span class="slider"></span></div><span class="item-title">Break & Retest</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+      <!-- 4H Section -->
+      <div class="card glass section" data-section="h4" data-max="45">
+        <div class="section-header">
+          <h3>4H <span class="section-max">(Max 45%)</span></h3>
+          <div class="section-meta"><span id="h4-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c h4" type="checkbox"><span class="slider"></span></div><span class="item-title">Trend</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c h4" type="checkbox"><span class="slider"></span></div><span class="item-title">Touching SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c h4" type="checkbox"><span class="slider"></span></div><span class="item-title">Crossing SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c h4" type="checkbox"><span class="slider"></span></div><span class="item-title">Round Psychological Level</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c h4" type="checkbox"><span class="slider"></span></div><span class="item-title">Rejection from HTF Levels</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+      <!-- LTF Section -->
+      <div class="card glass section" data-section="ltf" data-max="15">
+        <div class="section-header">
+          <h3>1H/30min/15min/5min <span class="section-max">(Max 15%)</span></h3>
+          <div class="section-meta"><span id="ltf-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c ltf" type="checkbox"><span class="slider"></span></div><span class="item-title">Trend</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c ltf" type="checkbox"><span class="slider"></span></div><span class="item-title">Touching SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c ltf" type="checkbox"><span class="slider"></span></div><span class="item-title">Crossing SMA (50,8)</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c ltf" type="checkbox"><span class="slider"></span></div><span class="item-title">Rejection from Horizontal Levels</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+      <!-- Entry Signals Section -->
+      <div class="card glass section" data-section="entry" data-max="20">
+        <div class="section-header">
+          <h3>ENTRY SIGNALS <span class="section-max">(Max 20%)</span></h3>
+          <div class="section-meta"><span id="entry-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Breakouts</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Accumulation</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Liquidity Sweeps</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Engulfing Candle</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Structure For SL</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c entry" type="checkbox"><span class="slider"></span></div><span class="item-title">Clean Ranges (LTA)</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+      <!-- SL/TP Section (Informational Only) -->
+      <div class="card glass section" data-section="sltp" data-max="10">
+        <div class="section-header">
+          <h3>SL & TP <span class="section-max">(Informational Only)</span></h3>
+          <div class="section-meta"><span id="sltp-score" class="section-score">0%</span></div>
+        </div>
+        <div class="items">
+          <label class="item"><div class="switch"><input class="c sltp" type="checkbox"><span class="slider"></span></div><span class="item-title">Stop Loss Set</span><span class="item-percent"></span></label>
+          <label class="item"><div class="switch"><input class="c sltp" type="checkbox"><span class="slider"></span></div><span class="item-title">Take Profit Set</span><span class="item-percent"></span></label>
+        </div>
+      </div>
+
+    </section>
+
+    <aside class="validator-right">
+  <div class="glass panel overall-panel" style="background: rgba(50,50,70,0.95); padding: 25px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.6); text-align: center; transition: transform 0.3s;">
+    <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: #f0f0f0;">Overall Score</h3>
+
+    <div id="overallBox" style="font-size: 2rem; margin: 20px 0; padding: 20px; border-radius: 15px; font-weight: bold; transition: background 0.3s; color: #fff; background: #dc3545;">
+      0% <small class="overall-label" style="display:block; font-size: 1rem; margin-top:5px; color:#ccc;">Very Weak</small>
+    </div>
+
+    <div class="legend" style="display: flex; justify-content: space-around; margin: 20px 0;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="dot green" style="width: 16px; height: 16px; border-radius: 50%; background-color: #28a745; display:inline-block;"></span> Strong
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="dot orange" style="width: 16px; height: 16px; border-radius: 50%; background-color: #fd7e14; display:inline-block;"></span> Medium
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="dot red" style="width: 16px; height: 16px; border-radius: 50%; background-color: #dc3545; display:inline-block;"></span> Weak
+      </div>
+    </div>
+
+    <div class="notes" style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; font-size: 0.9rem; color: #ccc; margin-bottom: 20px;">
+      <p><strong>Note:</strong> SL & TP do not affect the overall score.</p>
+    </div>
+
+    <a class="btn btn-primary full" href="index.html" style="display: inline-block; width: 100%; padding: 12px; border-radius: 12px; background: #4ef07c; color: #1f1f2e; font-weight: bold; text-decoration: none; text-align: center; transition: background 0.3s;">
+      Back to Home
+    </a>
+  </div>
+</aside>
+
+
+  <footer class="site-footer">
+    <div class="container">© 2025 G's Setup Validator • Built for disciplined traders</div>
+  </footer>
+
+  <script>
+    const sections = [
+      { key: 'weekly', max: 60, scoreId: 'weekly-score' },
+      { key: 'daily',  max: 60, scoreId: 'daily-score' },
+      { key: 'h4',     max: 45, scoreId: 'h4-score' },
+      { key: 'ltf',    max: 15, scoreId: 'ltf-score' },
+      { key: 'entry',  max: 20, scoreId: 'entry-score' },
+      { key: 'sltp',   max: 10, scoreId: 'sltp-score' }
+    ];
+
+    function getLabel(total){
+      if(total>=80)return"A++ Setup";
+      if(total>=65)return"Strong Setup";
+      if(total>=45)return"Medium Setup";
+      if(total>=25)return"Weak Setup";
+      return"Very Weak Setup";
+    }
+
+    function calcAndRender(){
+      let overall=0;
+      sections.forEach(s=>{
+        const nodeList=document.querySelectorAll('.'+s.key);
+        const totalItems=nodeList.length;
+        if(totalItems===0)return;
+        const perItemPercent=s.max/totalItems;
+        nodeList.forEach(el=>{
+          const parentLabel=el.closest('.item');
+          if(parentLabel) parentLabel.querySelector('.item-percent').textContent=perItemPercent.toFixed(1)+'%';
+        });
+        const checked=Array.from(nodeList).filter(ch=>ch.checked).length;
+        const fillRatio=checked/totalItems;
+        const sectionScore=Math.round(s.max*fillRatio);
+        const scoreBox=document.getElementById(s.scoreId);
+        scoreBox.textContent=sectionScore+'%';
+        scoreBox.style.background=fillRatio>=0.7?'#28a745':fillRatio>=0.4?'#fd7e14':'#dc3545';
+        if(s.key!=='sltp') overall+=sectionScore;
+      });
+      const overallBox=document.getElementById('overallBox');
+      overallBox.innerHTML=Math.round(overall)+'% <small class="overall-label">'+getLabel(overall)+'</small>';
+      overallBox.style.background=overall>=80?'#007a3d':overall>=65?'#2aa84a':overall>=45?'#fd7e14':'#dc3545';
+    }
+
+    document.querySelectorAll('input[type="checkbox"].c').forEach(cb=>{
+      cb.addEventListener('change',()=>{
+        cb.closest('.item')?.classList.add('pulse');
+        setTimeout(()=>cb.closest('.item')?.classList.remove('pulse'),250);
+        calcAndRender();
+      });
+    });
+
+    window.addEventListener('load',()=>{ calcAndRender(); });
+  </script>
+
+</body>
+</html>
